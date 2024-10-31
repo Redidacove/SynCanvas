@@ -4,9 +4,11 @@ import { ClerkProvider, useAuth } from "@clerk/nextjs";
 import { ConvexProviderWithClerk } from "convex/react-clerk";
 import { AuthLoading, Authenticated, ConvexReactClient } from "convex/react";
 import type { PropsWithChildren } from "react";
-interface ConvexClientProviderProps {
-  children: React.ReactNode;
-}
+import { Loading } from "@/components/ui/auth/loading";
+
+interface ConvexClientProviderProps{
+    children: React.ReactNode;
+};
 
 const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL!;
 
