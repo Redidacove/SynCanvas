@@ -7,7 +7,7 @@ import { EmptySearch } from "./empty-search";
 import { api } from "@/convex/_generated/api";
 import { BoardCard } from "./board-card";
 import { NewBoardButton } from "./new-board-button";
-import { useMemo } from "react";
+import * as React from "react";
 
 interface BoardListProps {
   orgId: string;
@@ -17,20 +17,25 @@ interface BoardListProps {
   };
 }
 
+interface QueryType {
+  search?: string;
+  favorites?: string;
+}
+
 export const BoardList = ({ orgId, query }: BoardListProps) => {
-  // Wrap searchParams spread in useMemo to handle dynamic access safely
-  const memoizedQuery = useMemo(() => ({ orgId, ...query }), [orgId, query]);
+  // Use React.use() to handle query asynchronously
+  // Use React.use to unwrap query properties for client-side dynamic use
+  const dynamicQuery: QueryType = React.use(query as any); //have to look properly
 
-  // Use memoized query in useQuery
-  const data = useQuery(api.boards.get, memoizedQuery);
-
+  // Use dynamicQuery in useQuery
+  const data = useQuery(api.boards.get, { orgId, ...dynamicQuery });
   // data will never be undefined even if there is an error or is empty
   // if it is empty, convex will return null
   if (data === undefined) {
     return (
       <div>
         <h2 className="text-3xl">
-          {query.favorites ? "Favorite boards" : "Team boards"}
+          {dynamicQuery.favorites ? "Favorite boards" : "Team boards"}
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-5 mt-8 pb-10">
           <NewBoardButton orgId={orgId} disabled />
@@ -59,7 +64,7 @@ export const BoardList = ({ orgId, query }: BoardListProps) => {
   return (
     <div>
       <h2 className="text-3xl">
-        {query.favorites ? "Favorite boards" : "Team boards"}
+        {dynamicQuery.favorites ? "Favorite boards" : "Team boards"}
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-5 mt-8 pb-10">
         <NewBoardButton orgId={orgId} />
