@@ -23,9 +23,9 @@ export const OrgSidebar = () => {
   return (
     <div className="hidden lg:flex flex-col space-y-6 w-[206px] pl-5 pt-5">
       <Link href="/">
-      {/* Logo displaying here */}
+        {/* Logo displaying here */}
         <div className="flex items-center gap-x-2">
-          <Image src="//tmp_logo.svg" alt="Logo" height={24} width={24} />
+          <Image src="/tmp_logo.svg" alt="Logo" height={24} width={24} />
           <span className={cn("font-semibold text-2xl", font.className)}>
             SynCanvas
           </span>

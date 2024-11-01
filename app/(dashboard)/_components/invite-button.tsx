@@ -1,5 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { OrganizationProfile } from "@clerk/nextjs";
 import { Plus } from "lucide-react";
 
@@ -13,6 +19,9 @@ export const InviteButton = () => {
         </Button>
       </DialogTrigger>
       <DialogContent className="p-0 bg-transparent border-none max-w-[880px]">
+        <VisuallyHidden.Root>
+          <DialogTitle>Title</DialogTitle>
+        </VisuallyHidden.Root>
         <OrganizationProfile />
       </DialogContent>
     </Dialog>
