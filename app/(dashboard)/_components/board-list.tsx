@@ -49,11 +49,11 @@ export const BoardList = ({ orgId, query }: BoardListProps) => {
     );
   }
 
-  if (!data?.length && query.search) {
+  if (!data?.length && dynamicQuery.search) {
     return <EmptySearch />;
   }
 
-  if (!data?.length && query.favorites) {
+  if (!data?.length && dynamicQuery.favorites) {
     return <EmptyFavorites />;
   }
 
