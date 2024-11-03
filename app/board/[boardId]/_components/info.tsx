@@ -53,7 +53,7 @@ export const Info = ({ boardId }: InfoProps) => {
                 font.className
               )}
             >
-              Miro Clone
+              SynCanvas
             </span>
           </Link>
         </Button>
