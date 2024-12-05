@@ -5,6 +5,12 @@ import { UserAvatar } from "./user-avatar";
 import { useOthers, useSelf } from "@/liveblocks.config";
 import { connectionIdToColor } from "@/lib/utils";
 
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { DialogTitle } from "@radix-ui/react-dialog";
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
+import { RoomPage } from "./video-call";
+
 const MAX_SHOWN_USERS = 2;
 
 export const Participants = () => {
@@ -42,6 +48,20 @@ export const Participants = () => {
             fallback={`+${users.length - MAX_SHOWN_USERS}`}
           />
         )}
+      </div>
+      <div>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="outline">JoinVC</Button>
+          </DialogTrigger>
+          <DialogContent className="p-0 bg-transparent border-none max-w-[880px]">
+            <VisuallyHidden.Root>
+              <DialogTitle>Title</DialogTitle>
+            </VisuallyHidden.Root>
+            <RoomPage />
+            {/* change here */}
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );

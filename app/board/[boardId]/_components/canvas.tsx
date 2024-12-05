@@ -72,7 +72,8 @@ export const Canvas = ({ boardId }: CanvasProps) => {
   const insertLayer = useMutation(
     (
       { storage, setMyPresence },
-      LayerType: LayerType.Ellipse
+      LayerType:
+        | LayerType.Ellipse
         | LayerType.Rectangle
         | LayerType.Text
         | LayerType.Note,
