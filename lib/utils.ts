@@ -10,6 +10,9 @@ import {
 } from "@/types/canvas";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+import { toast } from "sonner";
 
 const COLORS = ["#DC2626", "#D97706", "#059669", "#7C3AED", "#DB2777"];
 
@@ -169,4 +172,40 @@ export function getSvgPathFromStroke(stroke: number[][]) {
 
   d.push("Z");
   return d.join(" ");
-};
+}
+
+export async function exportToPdf() {
+  const element = document.getElementById("whiteboard");
+
+  if (!element) {
+    console.error("Whiteboard element not found");
+    toast.error("Failed to export: whiteboard not found");
+    return;
+  }
+
+  try {
+    window.scrollTo(0, 0);
+
+    const canvas = await html2canvas(element, {
+      useCORS: true,
+      backgroundColor: "#ffffff",
+      scale: 2,
+    });
+
+    const imageData = canvas.toDataURL("image/png");
+
+    const pdf = new jsPDF({
+      orientation: "landscape",
+      unit: "px",
+      format: [canvas.width, canvas.height],
+    });
+
+    pdf.addImage(imageData, "PNG", 0, 0, canvas.width, canvas.height);
+    pdf.save("whiteboard.pdf");
+
+    toast.success("Saved to PDF");
+  } catch (error) {
+    console.error("PDF export error:", error);
+    toast.error("Failed to export PDF");
+  }
+}

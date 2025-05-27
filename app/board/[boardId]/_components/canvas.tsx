@@ -440,7 +440,6 @@ export const Canvas = ({ boardId }: CanvasProps) => {
   return (
     <main className="h-full w-full bg-neutral-100 relative touch-none">
       <Info boardId={boardId} />
-      <Participants />
       <Toolbar
         canvasState={canvasState}
         setCanvasState={setCanvasState}
@@ -449,50 +448,60 @@ export const Canvas = ({ boardId }: CanvasProps) => {
         undo={history.undo}
         redo={history.redo}
       />
-      <SelectionTools camera={camera} setLastUsedColor={setLastUsedColor} />
-      <svg
-        className="h-[100vh] w-[100vw]"
-        onWheel={onWheel}
-        onPointerMove={onPointerMove}
-        onPointerLeave={onPointerLeave}
-        onPointerDown={onPointerDown}
-        onPointerUp={onPointerUp}
-      >
-        <g
-          style={{
-            transform: `translate(${camera.x}px, ${camera.y}px)`,
-          }}
+      <Participants />
+
+      {/* 👇 Wrap whiteboard contents in this div for export */}
+      <div id="whiteboard">
+        <SelectionTools camera={camera} setLastUsedColor={setLastUsedColor} />
+        <svg
+          className="h-[100vh] w-[100vw]"
+          onWheel={onWheel}
+          onPointerMove={onPointerMove}
+          onPointerLeave={onPointerLeave}
+          onPointerDown={onPointerDown}
+          onPointerUp={onPointerUp}
         >
-          {layerIds.map((layerId) => (
-            <LayerPreview
-              key={layerId}
-              id={layerId}
-              onLayerPointerDown={onLayerPointerDown}
-              selectionColor={layerIdsToColorSelection[layerId]}
+          <g
+            style={{
+              transform: `translate(${camera.x}px, ${camera.y}px)`,
+            }}
+          >
+            {layerIds.map((layerId) => (
+              <LayerPreview
+                key={layerId}
+                id={layerId}
+                onLayerPointerDown={onLayerPointerDown}
+                selectionColor={layerIdsToColorSelection[layerId]}
+              />
+            ))}
+
+            {canvasState.mode === CanvasMode.SelectionNet &&
+              canvasState.current != null && (
+                <rect
+                  className="fill-blue-500/5 stroke-blue-500 stroke-1"
+                  x={Math.min(canvasState.origin.x, canvasState.current.x)}
+                  y={Math.min(canvasState.origin.y, canvasState.current.y)}
+                  width={Math.abs(canvasState.origin.x - canvasState.current.x)}
+                  height={Math.abs(
+                    canvasState.origin.y - canvasState.current.y
+                  )}
+                />
+              )}
+            <SelectionBox
+              onResizeHandlePointerDown={onResizeHandlePointerDown}
             />
-          ))}
-          {canvasState.mode === CanvasMode.SelectionNet &&
-            canvasState.current != null && (
-              <rect
-                className="fill-blue-500/5 stroke-blue-500 stroke-1"
-                x={Math.min(canvasState.origin.x, canvasState.current.x)}
-                y={Math.min(canvasState.origin.y, canvasState.current.y)}
-                width={Math.abs(canvasState.origin.x - canvasState.current.x)}
-                height={Math.abs(canvasState.origin.y - canvasState.current.y)}
+            <CursorsPresence />
+            {pencilDraft != null && pencilDraft.length > 0 && (
+              <Path
+                points={pencilDraft}
+                fill={colorToCss(lastUsedColor)}
+                x={0}
+                y={0}
               />
             )}
-          <SelectionBox onResizeHandlePointerDown={onResizeHandlePointerDown} />
-          <CursorsPresence />
-          {pencilDraft != null && pencilDraft.length > 0 && (
-            <Path
-              points={pencilDraft}
-              fill={colorToCss(lastUsedColor)}
-              x={0}
-              y={0}
-            />
-          )}
-        </g>
-      </svg>
+          </g>
+        </svg>
+      </div>
     </main>
   );
 };

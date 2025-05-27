@@ -1,5 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { ToolButton } from "./tool-button";
+import Export from "./export";
 import {
   Circle,
   MousePointer2,
@@ -121,6 +122,7 @@ export const Toolbar = ({
           isDisabled={!canRedo}
         />
       </div>
+      <Export />
     </div>
   );
 };

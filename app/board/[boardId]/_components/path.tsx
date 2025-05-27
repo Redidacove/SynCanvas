@@ -24,10 +24,10 @@ export const Path = ({
       onPointerDown={onPointerDown}
       d={getSvgPathFromStroke(
         getStroke(points, {
-          size: 16,
-          thinning: 0.5,
-          smoothing: 0.5,
-          streamline: 0.5,
+          size: 10,
+          thinning: 0.2,
+          smoothing: 0.2,
+          streamline: 0.2,
         })
       )}
       style={{ transform: `translate(${x}px, ${y}px)` }}

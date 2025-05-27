@@ -27,6 +27,8 @@
     "convex": "^1.17.0",
     "convex-helpers": "^0.1.63",
     "date-fns": "^4.1.0",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.1",
     "lucide-react": "^0.454.0",
     "next": "15.0.2",
     "next-themes": "^0.3.0",
